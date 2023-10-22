@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +40,7 @@ fun UserActions() {
         modifier = Modifier
             .background(DarkBlue)
             .fillMaxWidth()
-            .height(300.dp),
+            .height(330.dp),
     ) {
         items(Constants.userActions.size) { position ->
 
@@ -47,28 +48,35 @@ fun UserActions() {
 
             UserActionItem(
                 iconId = currentItem.iconId,
-                iconLabel = currentItem.label
+                iconLabel = currentItem.label,
+                onClick = { /* TODO() */ }
             )
         }
     }
 }
 
 @Composable
-fun UserActionItem(iconId: Int, iconLabel: String) {
+fun UserActionItem(
+    iconId: Int,
+    iconLabel: String,
+    onClick: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
 
-        Icon(
-            painter = painterResource(id = iconId),
-            tint = colorResource(id = R.color.orange),
-            contentDescription = null,
-            modifier = Modifier
-                .height(32.dp)
-                .background(color = Color.White, shape = CircleShape)
-                .padding(4.dp)
-        )
+        IconButton(onClick = { onClick() }) {
+            Icon(
+                painter = painterResource(id = iconId),
+                tint = colorResource(id = R.color.orange),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(32.dp)
+                    .background(color = Color.White, shape = CircleShape)
+                    .padding(4.dp)
+            )
+        }
 
         Text(
             iconLabel,
