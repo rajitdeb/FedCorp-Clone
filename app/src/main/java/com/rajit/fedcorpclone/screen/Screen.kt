@@ -3,7 +3,7 @@ package com.rajit.fedcorpclone.screen
 object Screen {
 
     const val HOME = "Home"
-    const val PAYEE_MANAGEMENT = "Payee Management"
+    const val PAYEE_MANAGEMENT = "Payee_Management"
     const val QUICK_PAY = "Quick Pay"
     const val FUND_TRANSFER = "Fund Transfer"
     const val FUND_TRANSFER_PAYEE_DETAILS = "Fund Transfer Payee Details"
