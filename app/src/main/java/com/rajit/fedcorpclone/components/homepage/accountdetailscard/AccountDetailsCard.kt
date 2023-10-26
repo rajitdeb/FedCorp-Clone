@@ -1,4 +1,6 @@
+
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,28 +27,27 @@ import com.rajit.fedcorpclone.R
 
 @Preview(showBackground = true)
 @Composable
-fun AccountDetailsCard() {
+fun AccountDetailsCard(
+    onClickAccountDetailsCard: () -> Unit = {}
+) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_previous),
-//            tint = Color.DarkGray,
-//            contentDescription = "See Previous Account"
-//        )
-
-//        Spacer(modifier = Modifier.width(4.dp))
-
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(230.dp)
+                    .clickable {
+                        onClickAccountDetailsCard()
+                    }
             ) {
 
                 // FEDERAL BANK BRANDING
@@ -178,14 +179,6 @@ fun AccountDetailsCard() {
 
             }
         }
-
-//        Spacer(modifier = Modifier.width(4.dp))
-//
-//        Icon(
-//            painter = painterResource(id = R.drawable.ic_next),
-//            tint = Color.DarkGray,
-//            contentDescription = "See Next Account"
-//        )
 
     }
 

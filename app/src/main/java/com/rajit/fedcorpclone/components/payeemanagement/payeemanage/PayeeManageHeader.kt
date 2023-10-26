@@ -32,7 +32,10 @@ import com.rajit.fedcorpclone.ui.theme.Orange
 
 @Preview(showBackground = true)
 @Composable
-fun PayeeManageHeader() {
+fun PayeeManageHeader(
+    onClickAddPayee: () -> Unit = {},
+    onClickApprovePayee: () -> Unit = {}
+) {
 
     Box(
         modifier = Modifier
@@ -47,7 +50,7 @@ fun PayeeManageHeader() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { onClickAddPayee() },
                 modifier = Modifier
                     .requiredSize(100.dp)
                     .border(width = 4.dp, color = Orange, shape = CircleShape)
@@ -75,7 +78,7 @@ fun PayeeManageHeader() {
             }
 
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { onClickApprovePayee() },
                 modifier = Modifier
                     .requiredSize(100.dp)
                     .border(width = 4.dp, color = Orange, shape = CircleShape)

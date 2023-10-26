@@ -39,15 +39,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.rajit.fedcorpclone.components.accountdetails.AccountDetails
+import com.rajit.fedcorpclone.components.cardstatus.CardStatus
+import com.rajit.fedcorpclone.components.fundtransfer.FundTransfer
 import com.rajit.fedcorpclone.components.homepage.transactionapproval.TransactionApprovals
 import com.rajit.fedcorpclone.components.homepage.useractions.UserActions
+import com.rajit.fedcorpclone.components.knowtransactionlimit.KnowYourTransactionLimit
+import com.rajit.fedcorpclone.components.ministatement.MiniStatement
+import com.rajit.fedcorpclone.components.payeemanagement.addpayee.AddPayee
+import com.rajit.fedcorpclone.components.payeemanagement.approvepayee.ApprovePayee
 import com.rajit.fedcorpclone.components.payeemanagement.payeelist.PayeeList
+import com.rajit.fedcorpclone.components.quickpay.QuickPay
+import com.rajit.fedcorpclone.components.reporttransaction.ReportTransaction
+import com.rajit.fedcorpclone.components.schedulepayment.SchedulePayment
 import com.rajit.fedcorpclone.screen.Screen
+import com.rajit.fedcorpclone.screen.Screens
 import com.rajit.fedcorpclone.ui.theme.DarkBlue
 import com.rajit.fedcorpclone.ui.theme.FedCorpCloneTheme
 import kotlinx.coroutines.launch
@@ -64,11 +77,12 @@ class MainActivity : ComponentActivity() {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val selectedItem = rememberSaveable { mutableStateOf(Screen.HOME) }
 
+                val navController = rememberNavController()
+
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
-                        ModalDrawerSheet(
-                        ) {
+                        ModalDrawerSheet {
 
                             NavigationDrawerItem(
                                 label = { Text("Home") },
@@ -309,7 +323,15 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         topBar = {
                             TopAppBar(
-                                title = { Text("Welcome to FedCorp!") },
+                                title = {
+                                    Text(
+                                        text = "Welcome to FedCorp!",
+                                        style = TextStyle(
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    )
+                                },
                                 actions = {
                                     IconButton(onClick = {
                                         scope.launch {
@@ -335,33 +357,124 @@ class MainActivity : ComponentActivity() {
                     ) { contentPadding ->
 
                         Column(modifier = Modifier.padding(contentPadding)) {
-                            ShowScreenContent(selectedItem.value)
+
+                            NavHost(
+                                navController = navController,
+                                startDestination = Screens.Home.route
+                            ) {
+                                composable(Screens.Home.route) {
+                                    HomePageUI(
+
+                                        onClickAccountDetails = {
+                                            navController.navigate(Screens.AccountDetails.route)
+                                        },
+
+                                        onClickPayeeManagement = {
+                                            navController.navigate(Screens.PayeeManagement.route)
+                                        },
+                                        onClickQuickPay = {
+                                            navController.navigate(Screens.QuickPay.route)
+                                        },
+                                        onClickMiniStatement = {
+                                            navController.navigate(Screens.MiniStatement.route)
+                                        },
+                                        onClickFundTransfer = {
+                                            navController.navigate(Screens.FundTransfer.route)
+                                        },
+                                        onClickSchedulePayments = {
+                                            navController.navigate(Screens.SchedulePayment.route)
+                                        },
+                                        onClickKnowTransactionLimits = {
+                                            navController.navigate(Screens.KnowYourTransactionLimit.route)
+                                        },
+                                        onClickCardStatus = {
+                                            navController.navigate(Screens.CardStatus.route)
+                                        },
+                                        onClickReportTransactions = {
+                                            navController.navigate(Screens.ReportTransaction.route)
+                                        },
+                                    )
+                                }
+
+                                composable(Screens.AccountDetails.route) {
+                                    AccountDetails()
+                                }
+
+                                composable(Screens.PayeeManagement.route) {
+                                    PayeeList(
+                                        onClickAddPayee = {
+                                            navController.navigate(Screens.AddPayee.route)
+                                        },
+                                        onClickApprovePayee = {
+                                            navController.navigate(Screens.ApprovePayee.route)
+                                        }
+                                    )
+                                }
+
+                                composable(Screens.AddPayee.route) {
+                                    AddPayee()
+                                }
+
+                                composable(Screens.ApprovePayee.route) {
+                                    ApprovePayee()
+                                }
+
+                                composable(Screens.QuickPay.route) {
+                                    QuickPay()
+                                }
+
+                                composable(Screens.MiniStatement.route) {
+                                    MiniStatement()
+                                }
+
+                                composable(Screens.FundTransfer.route) {
+                                    FundTransfer()
+                                }
+
+                                composable(Screens.SchedulePayment.route) {
+                                    SchedulePayment()
+                                }
+
+                                composable(Screens.KnowYourTransactionLimit.route) {
+                                    KnowYourTransactionLimit()
+                                }
+
+                                composable(Screens.CardStatus.route) {
+                                    CardStatus()
+                                }
+
+                                composable(Screens.ReportTransaction.route) {
+                                    ReportTransaction()
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
-    @Composable
-    fun ShowScreenContent(value: String) {
-        return when(value) {
-            "Home" -> HomePageUI()
-            else -> PayeeList()
-        }
-    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomePageUI(navController: NavHostController = rememberNavController()) {
+fun HomePageUI(
+    onClickAccountDetails: () -> Unit = {},
+    onClickPayeeManagement: () -> Unit = {},
+    onClickQuickPay: () -> Unit = {},
+    onClickMiniStatement: () -> Unit = {},
+    onClickFundTransfer: () -> Unit = {},
+    onClickSchedulePayments: () -> Unit = {},
+    onClickKnowTransactionLimits: () -> Unit = {},
+    onClickCardStatus: () -> Unit = {},
+    onClickReportTransactions: () -> Unit = {},
+) {
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 8.dp)
             .verticalScroll(rememberScrollState())
     ) {
         // Account Details Section
-        AccountDetailsCard()
+        AccountDetailsCard(onClickAccountDetailsCard = { onClickAccountDetails() })
 
         // User Actions - Icons
         Text(
@@ -383,7 +496,17 @@ fun HomePageUI(navController: NavHostController = rememberNavController()) {
         Card(
             colors = CardDefaults.cardColors(containerColor = DarkBlue)
         ) {
-            UserActions()
+            UserActions(
+                onCLickAccountDetails = { onClickAccountDetails() },
+                onClickPayeeManagement = { onClickPayeeManagement() },
+                onClickQuickPay = { onClickQuickPay() },
+                onClickMiniStatement = { onClickMiniStatement() },
+                onClickFundTransfer = { onClickFundTransfer() },
+                onClickSchedulePayments = { onClickSchedulePayments() },
+                onClickKnowTransactionLimits = { onClickKnowTransactionLimits() },
+                onClickCardStatus = { onClickCardStatus() },
+                onClickReportTransactions = { onClickReportTransactions() }
+            )
         }
 
         Column(

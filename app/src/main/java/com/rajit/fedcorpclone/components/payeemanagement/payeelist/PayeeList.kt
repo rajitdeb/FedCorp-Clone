@@ -42,7 +42,10 @@ import com.rajit.fedcorpclone.util.Constants
 
 @Preview(showBackground = true)
 @Composable
-fun PayeeList() {
+fun PayeeList(
+    onClickAddPayee: () -> Unit = {},
+    onClickApprovePayee: () -> Unit = {}
+) {
 
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
@@ -50,7 +53,12 @@ fun PayeeList() {
         modifier = Modifier.fillMaxSize()
     ) {
 
-        item { PayeeManageHeader() }
+        item {
+            PayeeManageHeader(
+                onClickAddPayee = { onClickAddPayee() },
+                onClickApprovePayee = { onClickApprovePayee() }
+            )
+        }
 
         items(Constants.payees.size) {
 
@@ -85,7 +93,9 @@ fun PayeeItem(payee: Payee = Constants.payees[0]) {
         ) {
 
             Column(
-                modifier = Modifier.align(Alignment.TopStart).fillMaxWidth(0.89f)
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .fillMaxWidth(0.89f)
             ) {
 
                 Text(
@@ -107,7 +117,11 @@ fun PayeeItem(payee: Payee = Constants.payees[0]) {
                 )
                 Text(
                     text = payee.beneficiaryName.uppercase(),
-                    style = TextStyle(color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
 
                 if (expandState.value == ExpandState.MORE) {

@@ -8,6 +8,12 @@ import com.rajit.fedcorpclone.model.UserActionItem
 object Constants {
 
     val userActions = listOf(
+
+        UserActionItem(
+            R.drawable.ic_account_details,
+            "Account Details"
+        ),
+
         UserActionItem(
             R.drawable.ic_payee_add,
             "Payee Management",
@@ -30,17 +36,12 @@ object Constants {
 
         UserActionItem(
             R.drawable.ic_schedule_payment,
-            "Schedule Payments"
-        ),
-
-        UserActionItem(
-            R.drawable.ic_notifications,
-            "Notifications"
+            "Schedule  Payments"
         ),
 
         UserActionItem(
             R.drawable.ic_know_transaction_limit,
-            "Know Your Transaction Limits"
+            "Know Transaction Limits"
         ),
 
         UserActionItem(
@@ -51,7 +52,7 @@ object Constants {
         UserActionItem(
             R.drawable.ic_report_transaction,
             "Report Transactions"
-        ),
+        )
     )
 
     val payees = listOf<Payee>(
